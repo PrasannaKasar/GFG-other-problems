@@ -1,0 +1,47 @@
+class Solution {
+    // arr[]: Input Array
+    // N : Size of the Array arr[]
+    // Function to count inversions in the array.
+    static long inversionCount(long arr[], int n) {
+        // Your Code Here
+        return mergeSort(arr, new long[n], 0, n-1);
+    }
+    
+    public static long mergeSort(long[] nums, long[] temp, int s, int e) {      //this function divides the nums into parts to sort
+        if (s == e) {
+            return 0;
+        }
+        int m = s + (e - s) / 2;
+        long left = mergeSort(nums, temp, s, m);
+        long right = mergeSort(nums, temp, m+1, e);
+//        int count = 0;
+        long count = countNDescendingPairs(nums, temp, s, m, e);
+        return count + left + right;
+    }
+
+    private static long countNDescendingPairs(long[] nums, long[] temp, int s, int m, int e) {
+        long count = 0;
+        int i = s;          //pointer for left array
+        int j = m+1;        //pointer for right array
+        int k = s;          //pointer for temp array
+        while (i <= m && j <= e) {
+            if (nums[i] <= nums[j]) {
+                temp[k++] = nums[i++];
+            } else {
+                temp[k++] = nums[j++];
+                count += m - i + 1;
+            }
+        }
+        while (i <= m) {            //empty the nums, if any numbers are left
+            temp[k++] = nums[i++];
+        }
+        while (j <= e) {
+            temp[k++] = nums[j++];
+        }
+
+        for (i = s; i <= e; i++) {
+            nums[i] = temp[i];
+        }
+        return count;
+    }
+}
