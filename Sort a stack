@@ -1,0 +1,30 @@
+class GfG {
+    public static Stack<Integer> sort(Stack<Integer> s) {
+        boolean[] flag = new boolean[1];
+        flag[0] = false;
+        for (int i = s.size(); i > 0; i--) {
+            rearrange(s, i, Integer.MAX_VALUE, flag);
+            flag[0] = false;
+        }
+        return s;
+    }
+
+    public static int rearrange(Stack<Integer> s, int index, int min, boolean[] flag) {
+        if (index == 0) {
+            s.push(min);
+            flag[0] = true;
+            return min;
+        }
+        int temp = s.pop();
+        if (temp < min) {
+            min = temp;
+        }
+        min = rearrange(s, index-1, min, flag);
+        if (!flag[0] || temp != min) {
+            s.push(temp);
+        } else {
+            flag[0] = false;
+        }
+        return min;
+    }
+}
