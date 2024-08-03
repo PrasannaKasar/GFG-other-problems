@@ -1,0 +1,19 @@
+class Solution {
+  public static List<String> generateBinaryStrings(int n) {
+        // code here
+        List<String> ans = new ArrayList<>();
+        helper(ans, "", n, 0);
+        return ans;
+    }
+
+    public static void helper(List<String> ans, String p, int n, int index) {
+        if (index == n) {
+            ans.add(p);
+            return;
+        }
+        helper(ans, p + '0', n, index+1);
+        if (index == 0 || p.charAt(index-1) != '1') {
+            helper(ans, p + '1', n, index+1);
+        }
+    }
+}
