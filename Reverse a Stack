@@ -1,0 +1,25 @@
+class Solution
+{ 
+    public static void reverse(Stack<Integer> s) {
+        for (int i = s.size(); i > 0; i--) {
+            rearrange1(s, i, -1, -1);
+        }
+    }
+
+    public static int rearrange1(Stack<Integer> s, int index, int first_index, int first_num) {
+        if (index == 0) {
+            s.push(first_num);
+            return first_index;
+        }
+        int temp = s.pop();
+        if (first_index == -1) {
+            first_num = temp;
+            first_index = index;
+        }
+        first_index = rearrange1(s, index-1, first_index, first_num);
+        if (first_index != index) {
+            s.push(temp);
+        }
+        return first_index;
+    }
+}
