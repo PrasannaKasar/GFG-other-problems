@@ -1,0 +1,22 @@
+public class Solution {
+    public static boolean isSubsetPresent(int n, int k,int []a) {
+        // Write your code here
+        return helper(n, k, a, 0, 0);
+    }
+
+    public static boolean helper(int n, int target, int[] a, int sum, int index) {
+        if (sum == target) {
+            return true;
+        }
+        if (sum > target || index == n) {
+            return false;
+        }
+        if (helper(n, target, a, sum + a[index], index+1)) {
+            return true;
+        }
+        if (helper(n, target, a, sum, index+1)) {
+            return true;
+        }
+        return false;
+    }
+}
