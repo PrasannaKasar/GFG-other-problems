@@ -1,0 +1,36 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int frogJump(int n, int heights[]) {
+
+        int[] dp = new int[n];
+        Arrays.fill(dp, -1);
+        return helper(dp, heights, 0);
+        
+    }
+
+    public static int helper(int[] dp, int[] stairs, int index) {
+        if (index == stairs.length-1) {
+            return 0;
+        }
+        int left;
+        if (dp[index] == -1) {
+            left = helper(dp, stairs, index+1) + absDiff(stairs[index], stairs[index+1]);
+        } else {
+            return dp[index];
+        }
+        int right = Integer.MAX_VALUE;
+        if (index+2 < stairs.length) {
+            right = helper(dp, stairs, index+2) + absDiff(stairs[index], stairs[index+2]);
+        }
+        return dp[index] = Math.min(left, right);
+    }
+
+    public static int absDiff(int n1, int n2) {
+        if (n1 > n2) {
+            return n1 - n2;
+        }
+        return n2 - n1;
+    }
+
+}
