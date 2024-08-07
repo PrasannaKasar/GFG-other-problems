@@ -1,2 +1,2 @@
 # GFG-problems
-This repository contains GFG DSA problems and their solutions
+This repository contains DSA problems on platforms such as GFG and Coding Ninja and their solutions
