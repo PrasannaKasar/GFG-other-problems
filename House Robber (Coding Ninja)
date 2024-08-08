@@ -1,0 +1,28 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	public static long houseRobber(int[] valueInHouse) {
+		// Write your code here.
+		if (valueInHouse.length == 1) {
+			return valueInHouse[0];
+		}
+		long[] dp = new long[valueInHouse.length];
+		Arrays.fill(dp, -1);
+		long includeFirstHouse = maxLoot(valueInHouse, dp, 0, valueInHouse.length-1);
+		Arrays.fill(dp, -1);
+		long includeLastHouse = maxLoot(valueInHouse, dp, 1, valueInHouse.length);		
+		return Math.max(includeFirstHouse, includeLastHouse);
+	}	
+
+	public static long maxLoot(int[] valueInHouse, long[] dp, int index, int end) {
+        if (index >= end) {
+            return 0;
+        }
+        if (dp[index] != -1) {
+            return dp[index];
+        }
+        long select = maxLoot(valueInHouse, dp, index+2, end) + valueInHouse[index];
+        long notSelect = maxLoot(valueInHouse, dp, index+1, end);
+        return dp[index] = Math.max(select, notSelect);
+    }
+}
