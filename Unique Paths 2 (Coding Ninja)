@@ -1,0 +1,38 @@
+import java.util.*;
+
+public class Solution {
+    static int mazeObstacles(int n, int m, ArrayList<ArrayList<Integer>> mat) {
+        // Write your code here.
+        return uniquePaths(n, m, mat);
+    }
+
+    public static int uniquePaths(int m, int n, ArrayList<ArrayList<Integer>> mat) {
+		// Write your code here.
+		int[][] dp = new int[m][n];
+
+        for (int[] arr : dp) {
+            Arrays.fill(arr, -1);
+        }
+
+		return uniquePaths(dp, 0, 0, m, n, mat);
+	}
+
+	public static int uniquePaths(int[][] dp, int row, int col, int num_row, int num_col, ArrayList<ArrayList<Integer>> mat) {
+        if (row == num_row-1 && col == num_col-1) {
+            return 1;
+        }
+        if (dp[row][col] != -1) {
+            return dp[row][col];
+        }
+        int right = 0;
+        if (row + 1 <= num_row-1 && mat.get(row+1).get(col) != -1) {
+            right += uniquePaths(dp, row+1, col, num_row, num_col, mat);
+        }
+        int down = 0;
+        if (col + 1 <= num_col-1 && mat.get(row).get(col+1) != -1) {
+            down += uniquePaths(dp, row, col+1, num_row, num_col, mat);
+        }
+        return dp[row][col] = (right+down) % 1000000007;
+    }
+
+}
