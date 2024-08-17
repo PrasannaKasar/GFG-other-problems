@@ -1,0 +1,44 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int minSumPath(int[][] grid) {
+    	// Write your code here.
+        return uniquePaths(grid.length, grid[0].length, grid);
+    }
+
+    public static int uniquePaths(int m, int n, int[][] grid) {
+		// Write your code here.
+		int[][] dp = new int[m][n];
+
+        for (int[] arr : dp) {
+            Arrays.fill(arr, -1);
+        }
+
+		return uniquePaths(dp, 0, 0, m, n, grid);
+	}
+
+	public static int uniquePaths(int[][] dp, int row, int col, int num_row, int num_col, int[][] grid) {
+        if (row == num_row-1 && col == num_col-1) {
+            return grid[row][col];
+        }
+        if (dp[row][col] != -1) {
+            return dp[row][col];
+        }
+        int right = 0;
+        if (row + 1 <= num_row-1) {
+            right += uniquePaths(dp, row+1, col, num_row, num_col, grid) + grid[row][col];
+        }
+        int down = 0;
+        if (col + 1 <= num_col-1) {
+            down += uniquePaths(dp, row, col+1, num_row, num_col, grid) +  grid[row][col];
+        }
+        if (right != 0 && down != 0) {
+            return dp[row][col] = Math.min(down, right);
+        }
+        if (down == 0) {
+            return dp[row][col] = right;
+        }
+        return dp[row][col] = down;
+    
+    }
+}
