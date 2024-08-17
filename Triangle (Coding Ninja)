@@ -1,0 +1,26 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static int minimumPathSum(int[][] triangle, int n) {
+        // Write your code here.
+        int[][] dp = new int[n][n];
+
+        for (int[] arr : dp) {
+            Arrays.fill(arr, -1);
+        }
+        return minPathSum(triangle, dp, 0, 0);
+    }
+
+    public static int minPathSum(int[][] grid, int[][] dp, int row, int col) {
+        if (row == dp.length) {
+            return 0;
+        }
+        if (dp[row][col] != -1) {
+            return dp[row][col];
+        }
+        int down = minPathSum(grid, dp, row+1, col) + grid[row][col];
+        int diagonal = minPathSum(grid, dp, row+1, col+1) + grid[row][col];
+
+        return dp[row][col] = Math.min(down, diagonal);
+    }
+}
