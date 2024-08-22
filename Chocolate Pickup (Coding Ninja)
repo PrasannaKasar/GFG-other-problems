@@ -1,0 +1,50 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	public static int maximumChocolates(int r, int c, int[][] grid) {
+		// Write your code here.
+		int[][][] dp = new int[r][c][c];
+
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                for (int k = 0 ; k < c; k++) {
+                    dp[i][j][k] = -1;
+                }
+            }
+        }
+
+		return cherryPickup(grid, dp, 0, 0, c-1);
+	}
+
+	public static int cherryPickup(int[][] grid, int[][][] dp, int row, int col1, int col2) {
+        if (row == grid.length) {
+            return 0;
+        }
+        if (dp[row][col1][col2] != -1) {
+            return dp[row][col1][col2];
+        }
+        int[] col1Offsets = {-1, 0, 1};
+        int[] col2Offsets = {-1, 0, 1};
+
+        int max = Integer.MIN_VALUE;
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                int newCol1 = col1 + col1Offsets[i];
+                int newCol2 = col2 + col2Offsets[j];
+                int temp;
+                if (col1 == col2) {
+                    temp = grid[row][col1];
+                } else {
+                    temp = grid[row][col1] + grid[row][col2];
+                }
+                if (newCol1 >= 0 && newCol1 < grid[0].length && newCol2 >= 0 && newCol2 < grid[0].length) {
+                    int cherries = cherryPickup(grid, dp, row+1, newCol1, newCol2) + temp;
+                    max = Math.max(max, cherries);
+                }
+            }
+        }
+        return dp[row][col1][col2] = max;
+    }		
+
+}
