@@ -1,0 +1,30 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    public static boolean subsetSumToK(int n, int k, int[] arr){
+        // Write your code here.
+        return subsetSumEqualsK(arr, k);
+    }
+
+    public static boolean subsetSumEqualsK(int[] arr, int target) {
+        int n = arr.length;
+        Boolean[][] dp = new Boolean[n][target+1];
+        return subsetSumHelper(arr, dp, target, 0);
+    }
+
+    public static boolean subsetSumHelper(int[] arr, Boolean[][] dp, int target, int index) {
+        if (target == 0) {
+            return true;
+        }
+        if (target < 0 || index == arr.length) {
+            return false;
+        }
+        if (dp[index][target] != null) {
+            return dp[index][target];
+        }
+        boolean take = subsetSumHelper(arr, dp, target - arr[index], index+1);
+        boolean notTake = subsetSumHelper(arr, dp, target, index+1);
+
+        return dp[index][target] = take || notTake;
+    }
+}
