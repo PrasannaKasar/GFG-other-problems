@@ -1,0 +1,46 @@
+public class Solution {
+	public static boolean canPartition(int[] arr, int n) {
+		// Write your code here.
+		return equalSum(arr);
+	}
+
+	public static boolean equalSum(int[] arr) {
+        int sum = 0;
+        for (int num : arr) {
+            sum += num;
+        }
+        if (sum % 2 != 0) {
+            return false;
+        }
+        int target = sum / 2;
+        Boolean[][] dp = new Boolean[arr.length][target+1];
+        return subSetSumHelper(arr, target, dp, 0);
+    }
+
+    public static boolean subSetSumHelper(int[] arr, int target, Boolean[][] dp, int index) {
+        if (target == 0) {
+            return true;
+        }
+        if (target < 0 || index == arr.length) {
+            return false;
+        }
+        if (dp[index][target] != null) {
+            return dp[index][target];
+        }
+        while (index < arr.length && arr[index] == -1) {
+            index++;
+        }
+        if (index == arr.length) {
+            return false;
+        }
+        int temp = arr[index];
+        arr[index] = -1;
+        boolean take = subSetSumHelper(arr, target - temp, dp, index+1);
+        if (!take) {
+            arr[index] = temp;
+        }
+        boolean notTake = subSetSumHelper(arr, target, dp, index+1);
+
+        return dp[index][target] = take || notTake;
+    }
+}
