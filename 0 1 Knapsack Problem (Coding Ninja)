@@ -1,0 +1,28 @@
+import java.util.* ;
+import java.io.*; 
+
+public class Solution{
+    public static int knapsack(int[] weight, int[] value, int n, int maxWeight) {
+        int[][] dp = new int[n][maxWeight + 1];
+        for (int[] arr : dp) {
+            Arrays.fill(arr, -1);
+        }
+        return knapsack(dp, weight, value, maxWeight, 0);
+    }
+
+    public static int knapsack(int[][] dp, int[] weights, int[] values, int maxWeight, int index) {
+        if (maxWeight == 0 || index == weights.length) {
+            return 0;
+        }
+        if (dp[index][maxWeight] != -1) {
+            return dp[index][maxWeight];
+        }
+        int notPick = knapsack(dp, weights, values, maxWeight, index+1);
+        int pick = 0;
+        if (maxWeight - weights[index] >= 0) {
+            pick = knapsack(dp, weights, values, maxWeight-weights[index], index+1) + values[index];
+        }
+        return dp[index][maxWeight] = Math.max(pick, notPick);
+    }
+
+}
