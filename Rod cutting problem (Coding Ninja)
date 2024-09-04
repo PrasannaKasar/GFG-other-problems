@@ -1,0 +1,27 @@
+import java.util.*;
+
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		// Write your code here.
+		int[][] dp = new int[price.length][n+1];
+        for (int[] arr : dp) {
+            Arrays.fill(arr, -1);
+        }
+		return rodCut(dp, price, n, 0);
+	}
+
+	public static int rodCut(int[][] dp, int[] prices, int len, int index) {
+        if (len == 0 || index == prices.length) {
+            return 0;
+        }
+        if (dp[index][len] != -1) {
+            return dp[index][len];
+        }
+        int take = 0;
+        if (len - index - 1 >= 0) {
+            take = rodCut(dp, prices, len-index-1, index) + prices[index];
+        }
+        int notTake = rodCut(dp, prices, len, index+1);
+        return dp[index][len] = Math.max(take, notTake);
+    }
+}
